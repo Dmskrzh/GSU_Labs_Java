@@ -10,7 +10,7 @@ public class Main {
             textFile.rename("Новое название для текстового файла.txt");
             textFile.append("Второе добавление информации в файл.\n");
             textFile.printContent();
-            textFile.delete();
+//            textFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
