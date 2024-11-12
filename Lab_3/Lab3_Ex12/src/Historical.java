@@ -1,4 +1,4 @@
-class Historical extends Movie {
+class Historical extends Film {
     private String historicalPeriod;
     private String degreeOfAccuracy;
 
@@ -17,7 +17,12 @@ class Historical extends Movie {
     }
 
     @Override
-    public String title() {
-        return "Мультфильм " + getTitle() + ", режиссёр: " + getDirector() + ", продолжительность: " + getLength() + ", аудитория: " + getEsrb() + ", исторический период: " + getHistoricalPeriod() + ", степень соответствия событиям: " + getDegreeOfAccuracy();
+    public void printInfo() {
+        System.out.println("Мультфильм " + getTitle() + ", " +
+                "режиссёр: " + getDirector() + ", " +
+                "продолжительность: " + getLength() + ", " +
+                "аудитория: " + getEsrb() + ", " +
+                "исторический период: " + getHistoricalPeriod() + ", " +
+                "степень соответствия событиям: " + getDegreeOfAccuracy());
     }
 }

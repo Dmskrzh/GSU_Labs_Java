@@ -1,4 +1,4 @@
-public class Musical extends Movie {
+public class Musical extends Film {
     private String musicalInstrument;
     private int numberOfSongs;
 
@@ -17,8 +17,13 @@ public class Musical extends Movie {
     }
 
     @Override
-    public String title() {
-        return "Мультфильм " + getTitle() + ", режиссёр: " + getDirector() + ", продолжительность: " + getLength() + ", аудитория: " + getEsrb() + ", музыкальный инструмент: " + getMusicalInstrument() + ", кол-во песен: " + getNumberOfSongs();
+    public void printInfo() {
+        System.out.println("Мультфильм " + getTitle() + ", " +
+                "режиссёр: " + getDirector() + ", " +
+                "продолжительность: " + getLength() + ", " +
+                "аудитория: " + getEsrb() + ", " +
+                "музыкальный инструмент: " + getMusicalInstrument() + ", " +
+                "кол-во песен: " + getNumberOfSongs());
     }
 }
 
