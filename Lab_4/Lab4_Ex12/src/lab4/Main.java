@@ -16,8 +16,8 @@ public class Main {
         TextFile textFile = new TextFile(directoryName, fileName, content);
 
         textFile.rename();
-        textFile.appendContext();
+        textFile.deleteContent();
+        textFile.appendContent();
         textFile.printContent();
-        System.gc();
     }
 }

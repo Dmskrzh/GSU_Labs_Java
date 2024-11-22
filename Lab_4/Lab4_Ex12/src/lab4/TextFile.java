@@ -23,10 +23,14 @@ class TextFile extends File {
         System.out.println("Данные: " + this.content);
     }
 
-    public void appendContext() {
-        String oldContent = this.content;
+    public void appendContent() {
+//        String oldContent = this.content;
+        String oldContent = (this.content == null) ? "" : this.content;
         System.out.print("Введите дополнение к данным файла: ");
         this.content = oldContent + " " + scanner.nextLine();
     }
 
+    public void deleteContent() {
+        this.content = null;
+    }
 }
