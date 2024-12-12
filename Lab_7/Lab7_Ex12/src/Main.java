@@ -15,6 +15,10 @@ public class Main {
             int n = scanner.nextInt();
             scanner.nextLine();
 
+            if (n < 1) {
+                throw new InsufficientMemoryException("Недостаточно памяти для создания массива управляющих.");
+            }
+
             managers = new Manager[n];
 
             for (int i = 0; i < n; i++) {
@@ -26,7 +30,15 @@ public class Main {
                 boolean copes = scanner.nextBoolean();
                 scanner.nextLine();
 
+                if (age < 0) {
+                    throw new InvalidAgeException("Возраст не может быть отрицательным.");
+                }
+
                 managers[i] = new Manager(name, age, copes);
+            }
+
+            if (managers.length == 0) {
+                throw new MissingRecordException("Не удалось записать управляющих, запись отсутствует.");
             }
 
             try (FileOutputStream outputStream = new FileOutputStream("managers.ser");
