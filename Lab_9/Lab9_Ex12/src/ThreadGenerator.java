@@ -1,49 +1,53 @@
 import java.math.BigInteger;
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
+import java.util.List;
 
 class ThreadGenerator {
     private int threadCount;
     private String operation;
-    private int minBound;
-    private int maxBound;
-    private CalculatorThread[] threads;
+    private int lowerBound;
+    private int upperBound;
     private BigInteger finalResult;
 
-    public ThreadGenerator(int threadCount, String operation, int minBound, int maxBound) {
+    public ThreadGenerator(int threadCount, String operation, int lowerBound, int upperBound) {
         this.threadCount = threadCount;
         this.operation = operation;
-        this.minBound = minBound;
-        this.maxBound = maxBound;
-        this.threads = new CalculatorThread[threadCount];
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
     }
 
-    public void execute() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(threadCount);
+    public void execute() {
+        List<CalculatorThread> threads = new ArrayList<>();
+
+        int rangeSize = (upperBound - lowerBound + 1) / threadCount;
 
         for (int i = 0; i < threadCount; i++) {
-            int a = minBound + (i * (maxBound - minBound + 1)) / threadCount;
-            threads[i] = new CalculatorThread(a, latch);
-            threads[i].start();
+            int start = lowerBound + i * rangeSize;
+            int end = (i == threadCount - 1) ? upperBound : start + rangeSize - 1;
+
+            CalculatorThread thread = new CalculatorThread(start, end);
+            threads.add(thread);
+            thread.start();
         }
 
-        latch.await();
-        groupResults();
-    }
+        for (CalculatorThread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+            }
+        }
 
-    private void groupResults() {
-        finalResult = threads[0].getResult();
+        finalResult = threads.get(0).getResult();
 
-        for (int i = 1; i < threads.length; i++) {
-            switch (operation) {
-                case "сложение":
-                    finalResult = finalResult.add(threads[i].getResult());
-                    break;
-                case "вычитание":
-                    finalResult = finalResult.subtract(threads[i].getResult());
-                    break;
-                case "умножение":
-                    finalResult = finalResult.multiply(threads[i].getResult());
-                    break;
+        for (int i = 1; i < threads.size(); i++) {
+            BigInteger threadResult = threads.get(i).getResult();
+
+            if (operation.equals("сложение")) {
+                finalResult = finalResult.add(threadResult);
+            } else if (operation.equals("вычитание")) {
+                finalResult = finalResult.subtract(threadResult);
+            } else if (operation.equals("умножение")) {
+                finalResult = finalResult.multiply(threadResult);
             }
         }
     }
